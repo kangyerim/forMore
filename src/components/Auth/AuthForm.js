@@ -1,28 +1,67 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
+import { authService } from "../../firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const AuthForm = () => {
-	const [isLogin, setIsLogin] = useState(true);
+	const [isLoginMode, setisLoginMode] = useState(true);
+	const emailInputRef = useRef();
+	const passwordInputRef = useRef();
+	// const dispatch = useDispatch();
 
 	const switchAuthModeHandler = () => {
-		setIsLogin((prevState) => !prevState);
+		setisLoginMode((prevState) => !prevState);
+	};
+
+	const submitHandler = async (event) => {
+		event.preventDefault();
+
+		const currentEmail = emailInputRef.current.value;
+		const currentPassword = passwordInputRef.current.value;
+
+		if (isLoginMode) {
+			await signInWithEmailAndPassword(authService, currentEmail, currentPassword)
+				.then((UserCredentialImpl) => {
+					console.log(UserCredentialImpl);
+				})
+				.catch((error) => {
+					let errorMsg = "Authentiacation Failed!";
+					if (error?.message) {
+						errorMsg = error.message;
+					}
+					alert(errorMsg);
+				});
+		} else {
+			await createUserWithEmailAndPassword(authService, currentEmail, currentPassword)
+				.then((UserCredentialImpl) => {
+					console.log(UserCredentialImpl);
+				})
+				.catch((error) => {
+					let errorMsg = "Authentiacation Failed!";
+					if (error?.message) {
+						errorMsg = error.message;
+					}
+					alert(errorMsg);
+				});
+		}
 	};
 
 	return (
 		<section>
-			<h1>{isLogin ? "Login" : "Sign Up"}</h1>
+			<h1>{isLoginMode ? "Login" : "Sign Up"}</h1>
 			<form>
 				<div>
 					<label htmlFor="email">Your Email</label>
-					<input type="email" id="email" required />
+					<input type="email" id="email" ref={emailInputRef} required />
 				</div>
 				<div>
 					<label htmlFor="password">Your Password</label>
-					<input type="password" id="password" required />
+					<input type="password" id="password" ref={passwordInputRef} required />
 				</div>
 				<div>
-					<button>{isLogin ? "Login" : "Create Account"}</button>
+					<button onClick={submitHandler}>{isLoginMode ? "Login" : "Create Account"}</button>
 					<button type="button" onClick={switchAuthModeHandler}>
-						{isLogin ? "Create new account" : "Login with existing account"}
+						{isLoginMode ? "Create new account" : "Login with existing account"}
 					</button>
 				</div>
 			</form>

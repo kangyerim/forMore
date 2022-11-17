@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { authenSlice } from "../src/store/authenSlice";
 
 const App = () => {
-	const [isUserLogin, setIsUserLogin] = useState(false);
+	const [isUserLogin, setIsUserLogin] = useState(true);
+	const userInfo = useSelector((state) => state.authen);
 
+	console.log(userInfo);
 	return (
 		<>
-			<span>isUserLogin :</span>
-			{isUserLogin ? "true" : "false"}
 			<button>
 				<Link to="/auth">login</Link>
 			</button>
