@@ -2,11 +2,13 @@ import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { authService } from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
 	const [isLoginMode, setisLoginMode] = useState(true);
 	const emailInputRef = useRef();
 	const passwordInputRef = useRef();
+	const navigate = useNavigate();
 	// const dispatch = useDispatch();
 
 	const switchAuthModeHandler = () => {
@@ -23,6 +25,8 @@ const AuthForm = () => {
 			await signInWithEmailAndPassword(authService, currentEmail, currentPassword)
 				.then((UserCredentialImpl) => {
 					console.log(UserCredentialImpl);
+					alert("로그인 성공");
+					navigate("/home");
 				})
 				.catch((error) => {
 					let errorMsg = "Authentiacation Failed!";
@@ -35,6 +39,7 @@ const AuthForm = () => {
 			await createUserWithEmailAndPassword(authService, currentEmail, currentPassword)
 				.then((UserCredentialImpl) => {
 					console.log(UserCredentialImpl);
+					alert("회원가입 성공");
 				})
 				.catch((error) => {
 					let errorMsg = "Authentiacation Failed!";

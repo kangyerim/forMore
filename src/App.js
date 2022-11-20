@@ -5,11 +5,12 @@ import { authenSlice } from "../src/store/authenSlice";
 
 const App = () => {
 	const [isUserLogin, setIsUserLogin] = useState(true);
-	const userInfo = useSelector((state) => state.authen);
+	// const userInfo = useSelector((state) => state.authen);
+	// console.log(userInfo);
 
-	console.log(userInfo);
 	return (
 		<>
+			<h1>for More ( )</h1>
 			<button>
 				<Link to="/auth">login</Link>
 			</button>
