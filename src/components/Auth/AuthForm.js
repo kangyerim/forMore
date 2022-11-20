@@ -3,18 +3,20 @@ import { useDispatch } from "react-redux";
 import { authService } from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { authenActions } from "../../store/authenSlice";
 
 const AuthForm = () => {
 	const [isLoginMode, setisLoginMode] = useState(true);
 	const emailInputRef = useRef();
 	const passwordInputRef = useRef();
 	const navigate = useNavigate();
-	// const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
 	const switchAuthModeHandler = () => {
 		setisLoginMode((prevState) => !prevState);
 	};
 
+	console.log(authenActions);
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
@@ -24,8 +26,9 @@ const AuthForm = () => {
 		if (isLoginMode) {
 			await signInWithEmailAndPassword(authService, currentEmail, currentPassword)
 				.then((UserCredentialImpl) => {
-					console.log(UserCredentialImpl);
-					alert("로그인 성공");
+					const { user } = UserCredentialImpl;
+
+					dispatch(authenActions.logIn(user));
 					navigate("/home");
 				})
 				.catch((error) => {
@@ -38,7 +41,6 @@ const AuthForm = () => {
 		} else {
 			await createUserWithEmailAndPassword(authService, currentEmail, currentPassword)
 				.then((UserCredentialImpl) => {
-					console.log(UserCredentialImpl);
 					alert("회원가입 성공");
 				})
 				.catch((error) => {

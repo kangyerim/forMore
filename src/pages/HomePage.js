@@ -1,9 +1,13 @@
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { authService } from "../firebase";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
 	const navigate = useNavigate();
+	const userInfo = useSelector((state) => state.authen);
+
+	const { email } = userInfo;
 
 	const logOutHandler = () => {
 		signOut(authService)
@@ -21,6 +25,7 @@ const HomePage = () => {
 	return (
 		<>
 			<span>HomePage</span>
+			<span>{email}</span>
 			<button onClick={logOutHandler}>로그아웃</button>
 		</>
 	);
