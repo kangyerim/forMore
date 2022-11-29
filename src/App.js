@@ -10,7 +10,7 @@ const App = () => {
 
 	return (
 		<>
-			<h1>for More ( )</h1>
+			<h1 className="text-3xl font-bold underline">for More ( )</h1>
 			<button>
 				<Link to="/auth">login</Link>
 			</button>
