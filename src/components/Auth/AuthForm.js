@@ -16,6 +16,7 @@ const AuthForm = () => {
 		setisLoginMode((prevState) => !prevState);
 	};
 
+	console.log(authenActions);
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
@@ -50,6 +51,7 @@ const AuthForm = () => {
 						errorMsg = error.message;
 					}
 					alert(errorMsg);
+
 					emailInputRef.current.value = "";
 					passwordInputRef.current.value = "";
 				});
