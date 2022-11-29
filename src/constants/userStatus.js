@@ -1,0 +1,8 @@
+const USER_STATUS = {
+	FOCUSING: "FOCUSING",
+	RESTING: "RESTING",
+	LOG_IN: "LOG_IN",
+	LOG_OFF: "LOG_OFF",
+};
+
+export default USER_STATUS;
