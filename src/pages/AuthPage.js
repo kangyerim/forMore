@@ -40,12 +40,20 @@ const AuthPage = () => {
 				alert(errorMsg);
 			});
 	};
+
+	const onRouteToSignUp = () => {
+		navigate("/sign_up");
+	};
+
 	return (
 		<>
 			<div className="grid grid-cols-1 justify-items-center my-60">
 				<AuthForm onEnteredData={onEnteredDataHandler} />
 				<span className="text-sm my-2">
-					아직 계정이 없으신가요? <b>회원가입하기</b>
+					아직 계정이 없으신가요?{" "}
+					<b className="hover:cursor-pointer" onClick={onRouteToSignUp}>
+						회원가입
+					</b>
 				</span>
 			</div>
 		</>

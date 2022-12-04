@@ -17,6 +17,10 @@ const App = () => {
 		navigate("/login");
 	};
 
+	const onRouteToSignUp = () => {
+		navigate("/sign_up");
+	};
+
 	return (
 		<>
 			<div className="grid grid-cols-1 justify-items-center my-80">
@@ -26,7 +30,9 @@ const App = () => {
 				</button>
 				<div>
 					<span className="text-sm font-light">아직 계정이 없으신가요? </span>
-					<button className="text-sm font-medium">회원가입 하기</button>
+					<button className="text-sm font-medium" onClick={onRouteToSignUp}>
+						회원가입 하기
+					</button>
 				</div>
 			</div>
 		</>
