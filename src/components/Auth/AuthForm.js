@@ -1,14 +1,16 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { authService } from "../../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { authenActions } from "../../store/authenSlice";
 
-const AuthForm = () => {
+const AuthForm = ({ onEnteredData }) => {
 	const [isLoginMode, setisLoginMode] = useState(true);
+
 	const emailInputRef = useRef();
 	const passwordInputRef = useRef();
+	const cookieLoginRef = useRef();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -16,7 +18,6 @@ const AuthForm = () => {
 		setisLoginMode((prevState) => !prevState);
 	};
 
-	console.log(authenActions);
 	const submitHandler = async (event) => {
 		event.preventDefault();
 
@@ -58,26 +59,56 @@ const AuthForm = () => {
 		}
 	};
 
+	const onSubmitHandler = (event) => {
+		event.preventDefault();
+
+		const currentEmail = emailInputRef.current.value;
+		const currentPassword = passwordInputRef.current.value;
+		const currentCookieLogin = cookieLoginRef.current.checked;
+
+		onEnteredData({ email: currentEmail, password: currentPassword, cookieLogin: currentCookieLogin });
+	};
+
 	return (
-		<section>
-			<h1>{isLoginMode ? "Login" : "Sign Up"}</h1>
-			<form>
+		<>
+			<h1 className="font-semibold text-xl font-black my-2">로그인</h1>
+			<form onSubmit={onSubmitHandler}>
 				<div>
-					<label htmlFor="email">Your Email</label>
-					<input type="email" id="email" ref={emailInputRef} required />
+					<input
+						type="email"
+						id="email"
+						placeholder="   이메일"
+						className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
+						ref={emailInputRef}
+						required
+					/>
 				</div>
 				<div>
-					<label htmlFor="password">Your Password</label>
-					<input type="password" id="password" ref={passwordInputRef} required />
-				</div>
+					<input
+						type="password"
+						id="password"
+						placeholder="   비밀번호"
+						className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
+						ref={passwordInputRef}
+						required
+					/>
+				</div>{" "}
 				<div>
-					<button onClick={submitHandler}>{isLoginMode ? "Login" : "Create Account"}</button>
-					<button type="button" onClick={switchAuthModeHandler}>
-						{isLoginMode ? "Create new account" : "Login with existing account"}
-					</button>
+					<input
+						type="checkbox"
+						id="wantCookieLogin"
+						name="wantCookieLogin"
+						className="text-sm"
+						ref={cookieLoginRef}
+					></input>
+					<label htmlFor="wantCookieLogin" className="text-sm">
+						{" "}
+						자동 로그인
+					</label>
 				</div>
+				<button className="w-80 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black">로그인</button>
 			</form>
-		</section>
+		</>
 	);
 };
 
