@@ -1,10 +1,10 @@
-import AuthForm from "../components/Auth/AuthForm";
+import AuthForm from "../../components/Auth/AuthForm";
 
 import { useDispatch } from "react-redux";
-import { authService } from "../firebase";
+import { authService } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { authenActions } from "../store/authenSlice";
+import { authenActions } from "../../store/authenSlice";
 
 const AuthPage = () => {
 	const navigate = useNavigate();
