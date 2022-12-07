@@ -7,7 +7,7 @@ const HomePage = () => {
 	const navigate = useNavigate();
 	const userInfo = useSelector((state) => state.authen);
 
-	const { email } = userInfo;
+	const { email, displayName } = userInfo;
 
 	const logOutHandler = () => {
 		signOut(authService)
@@ -22,11 +22,22 @@ const HomePage = () => {
 			});
 	};
 
+	const navigeteToMyPage = () => {
+		navigate("/mypage");
+	};
+
 	return (
 		<>
-			<span>HomePage</span>
-			<span>{email}</span>
-			<button onClick={logOutHandler}>로그아웃</button>
+			<h1>HomePage</h1>
+			<span onClick={navigeteToMyPage}>{email} 마이페이지</span>
+			<div>
+				<button
+					className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
+					onClick={logOutHandler}
+				>
+					로그아웃
+				</button>
+			</div>
 		</>
 	);
 };

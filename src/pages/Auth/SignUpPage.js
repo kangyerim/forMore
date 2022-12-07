@@ -1,5 +1,4 @@
 import SignUpForm from "../../components/Auth/SignUpForm";
-import { useDispatch } from "react-redux";
 import { authService } from "../../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";

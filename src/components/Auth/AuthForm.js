@@ -52,7 +52,9 @@ const AuthForm = ({ onEnteredData }) => {
 						자동 로그인
 					</label>
 				</div>
-				<button className="w-80 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black">로그인</button>
+				<button type="submit" className="w-80 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black">
+					로그인
+				</button>
 			</form>
 		</>
 	);
