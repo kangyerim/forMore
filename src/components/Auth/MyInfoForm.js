@@ -1,14 +1,12 @@
 import { useState, useRef } from "react";
 
-const MyInfoForm = ({ userInfo }) => {
+const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 	const { email, displayName } = userInfo;
-	const [isUpdateMode, setUpdateMode] = useState(false);
 	const emailInputRef = useRef();
 	const displayNameInputRef = useRef();
 
-	const onModeHandler = (event) => {
-		event.preventDefault();
-		setUpdateMode(!isUpdateMode);
+	const onClickButton = (action) => {
+		emitClickedAction(action);
 	};
 
 	return (
@@ -19,7 +17,6 @@ const MyInfoForm = ({ userInfo }) => {
 					<label htmlFor="email" className="text-sm">
 						이메일
 					</label>
-
 					{isUpdateMode ? (
 						<input
 							type="email"
@@ -52,7 +49,11 @@ const MyInfoForm = ({ userInfo }) => {
 				</div>
 				{isUpdateMode && (
 					<div>
-						<button type="submit" className="w-80 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black">
+						<button
+							type="button"
+							className="w-80 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
+							onClick={(e) => onClickButton("changePass", e)}
+						>
 							비밀번호 변경 이메일 보내기
 						</button>
 					</div>
@@ -60,10 +61,17 @@ const MyInfoForm = ({ userInfo }) => {
 
 				{isUpdateMode && (
 					<>
-						<button className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black">취소</button>
 						<button
+							type="button"
 							className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
-							onClick={onModeHandler}
+							onClick={(e) => onClickButton("changeMode", e)}
+						>
+							취소
+						</button>
+						<button
+							type="button"
+							className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
+							onClick={(e) => onClickButton("save", e)}
 						>
 							저장
 						</button>
@@ -72,10 +80,17 @@ const MyInfoForm = ({ userInfo }) => {
 
 				{!isUpdateMode && (
 					<>
-						<button className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black">확인</button>
 						<button
+							type="button"
 							className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
-							onClick={onModeHandler}
+							onClick={(e) => onClickButton("navigate", e)}
+						>
+							확인
+						</button>
+						<button
+							type="button"
+							className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
+							onClick={(e) => onClickButton("changeMode", e)}
 						>
 							수정
 						</button>
