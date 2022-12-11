@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 	const { email, displayName } = userInfo;
@@ -6,7 +6,14 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 	const displayNameInputRef = useRef();
 
 	const onClickButton = (action) => {
-		emitClickedAction(action);
+		if (action === "save") {
+			const currentEmail = emailInputRef.current.value;
+			const currentDisplayName = displayNameInputRef.current.value;
+
+			emitClickedAction(action, { currentEmail, currentDisplayName });
+		} else {
+			emitClickedAction(action, {});
+		}
 	};
 
 	return (
