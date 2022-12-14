@@ -11,7 +11,7 @@ const router = createBrowserRouter([
 		element: <App />,
 	},
 	{
-		path: "/home",
+		path: "/home/*",
 		element: <HomePage />,
 	},
 	{
@@ -21,10 +21,6 @@ const router = createBrowserRouter([
 	{
 		path: "/sign_up",
 		element: <SignUpPage />,
-	},
-	{
-		path: "/mypage",
-		element: <MyPage />,
 	},
 ]);
 

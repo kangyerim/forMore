@@ -1,17 +1,7 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const App = () => {
 	const navigate = useNavigate();
-	const userInfo = useSelector((state) => state.authen);
-
-	useEffect(() => {
-		if (userInfo.uid) {
-			console.log(userInfo.displayName + " 로그인 상태 입니다.");
-			navigate("/home");
-		}
-	}, [userInfo]);
 
 	const onRouteToLogin = () => {
 		navigate("/login");

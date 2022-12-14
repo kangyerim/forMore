@@ -41,7 +41,7 @@ const MyPage = () => {
 
 	return (
 		<>
-			<Modal></Modal>
+			{/* <Modal></Modal> */}
 			<div className="grid grid-cols-1 justify-items-center my-60">
 				<MyInfoForm
 					userInfo={userInfo}

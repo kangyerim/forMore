@@ -30,6 +30,8 @@ const AuthPage = () => {
 				const { user } = UserCredentialImpl;
 
 				dispatch(authenActions.logIn(user));
+				console.log("uid >>> ", user.uid);
+				localStorage.setItem("UID", user.uid);
 				navigate("/home");
 			})
 			.catch((error) => {

@@ -22,7 +22,12 @@ export const authenSlice = createSlice({
 			state.email = userInfo.email;
 			state.displayName = userInfo.displayName;
 		},
-		logOut: (state) => {},
+		logOut: (state) => {
+			state.uid = "";
+			state.accessToken = "";
+			state.email = "";
+			state.displayName = "";
+		},
 		signUp: (state) => {},
 	},
 });
