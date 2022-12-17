@@ -2,27 +2,23 @@ import { useEffect } from "react";
 import { signOut, getAuth } from "firebase/auth";
 import { useNavigate, Routes, Route, Link, Outlet } from "react-router-dom";
 import { authService } from "../firebase";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authenActions } from "../store/authenSlice";
 import MyPage from "../pages/Auth/MyPage";
 
 const HomePage = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const userInfo = useSelector((state) => state.authen);
-	const auth = getAuth();
-	const currentUser = auth.currentUser;
+	const currentUser = authenActions.currentUser;
 
 	useEffect(() => {
-		if (currentUser) {
-			console.log("currentUser   >>> ", currentUser);
-		} else {
-			console.log("nooooo", localStorage.getItem("UID"));
-			const test = getAuth().getUser(localStorage.getItem("UID"));
-			console.log(test);
+		if (!currentUser) {
+			const sessionUserInfo = sessionStorage.getItem(`firebase:authUser:${process.env.REACT_APP_APIKEY}:[DEFAULT]`);
+			const userInfo = JSON.parse(sessionUserInfo);
+
+			dispatch(authenActions.logIn(userInfo));
 		}
 	}, []);
-	const { email, displayName } = userInfo;
 
 	const logOutHandler = async () => {
 		await dispatch(authenActions.logOut());
@@ -32,19 +28,15 @@ const HomePage = () => {
 		navigate("/");
 	};
 
-	const navigeteToMyPage = () => {
-		navigate("/mypage");
-	};
-
 	return (
 		<>
 			<h1>HomePage</h1>
 			<nav>
-				<Link to="mypage">마이페이지</Link>
+				<Link to="/home/mypage">마이페이지</Link>
 			</nav>
 			<div>
 				<button
-					className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
+					className="w-20 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
 					onClick={logOutHandler}
 				>
 					로그아웃

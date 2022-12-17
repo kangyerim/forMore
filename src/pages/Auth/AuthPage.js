@@ -2,7 +2,7 @@ import AuthForm from "../../components/Auth/AuthForm";
 
 import { useDispatch } from "react-redux";
 import { authService } from "../../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { authenActions } from "../../store/authenSlice";
 
@@ -25,6 +25,7 @@ const AuthPage = () => {
 	};
 
 	const onLogin = async ({ email, password }) => {
+		await setPersistence(authService, browserSessionPersistence);
 		await signInWithEmailAndPassword(authService, email, password)
 			.then((UserCredentialImpl) => {
 				const { user } = UserCredentialImpl;
