@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 	const { email, displayName } = userInfo;
@@ -16,14 +16,19 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 		}
 	};
 
+	useEffect(() => {
+		console.log("isUpdateMode   ? ", isUpdateMode);
+		if (isUpdateMode) {
+			emailInputRef.current.value = email;
+			displayNameInputRef.current.value = displayName;
+		}
+	}, [isUpdateMode]);
+
 	return (
 		<>
-			<h1 className="font-semibold text-xl font-black my-2">내 정보 mode: {isUpdateMode ? "update" : "read"}</h1>
+			<h1 className="font-semibold text-xl font-black my-2">내 정보</h1>
 			<form>
 				<div>
-					<label htmlFor="email" className="text-sm">
-						이메일
-					</label>
 					{isUpdateMode ? (
 						<input
 							type="email"
@@ -34,13 +39,16 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 							required
 						/>
 					) : (
-						<span className="font-semibold mx-2">{email}</span>
+						<div>
+							{" "}
+							<label htmlFor="email" className="text-sm">
+								이메일
+							</label>
+							<span className="font-semibold mx-2">{email}</span>
+						</div>
 					)}
 				</div>
 				<div>
-					<label htmlFor="displayName" className="text-sm">
-						닉네임
-					</label>
 					{isUpdateMode ? (
 						<input
 							type="text"
@@ -51,7 +59,12 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 							required
 						/>
 					) : (
-						<span className="font-semibold mx-2">{displayName}</span>
+						<div>
+							<label htmlFor="displayName" className="text-sm">
+								닉네임
+							</label>
+							<span className="font-semibold mx-2">{displayName}</span>
+						</div>
 					)}
 				</div>
 				{isUpdateMode && (

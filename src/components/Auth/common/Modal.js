@@ -40,7 +40,7 @@ const Modal = ({ title, body, onHandleCancel, onHandleSubmit }) => {
 		<>
 			{document &&
 				ReactDom.createPortal(
-					<OverlayMoadal title={"타이틀"} body={"내용"} onHandleCancel={"취소"} onHandleSubmit={"확인"} />,
+					<OverlayMoadal title={title} body={body} onHandleCancel={onHandleCancel} onHandleSubmit={onHandleSubmit} />,
 					document.querySelector("#overlay-root")
 				)}
 		</>

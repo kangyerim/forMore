@@ -2,9 +2,14 @@ import SignUpForm from "../../components/Auth/SignUpForm";
 import { authService } from "../../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import Modal from "../../components/Auth/common/Modal";
+import { useState } from "react";
 
 const SignUpPage = () => {
 	const navigate = useNavigate();
+	const [showModal, setShowModal] = useState(false);
+	const [modalTitle, setModalTitle] = useState("");
+	const [modalBody, setModalBody] = useState("");
 
 	const onEnteredDataHandler = async (enteredData) => {
 		const { email, password, nickName } = enteredData;
@@ -32,7 +37,13 @@ const SignUpPage = () => {
 
 		try {
 			await updateProfile(user, { displayName: nickName });
-			navigate("/login");
+			setModalTitle("회원가입");
+			setModalBody(`반갑습니다. ${nickName}님! 가입이 완료되었습니다.`);
+			setShowModal(true);
+
+			setTimeout(() => {
+				navigate("/login");
+			}, 3000);
 		} catch (error) {}
 	};
 
@@ -42,6 +53,7 @@ const SignUpPage = () => {
 
 	return (
 		<>
+			{showModal && <Modal title={modalTitle} body={modalBody}></Modal>}
 			<div className="grid grid-cols-1 justify-items-center my-60">
 				<SignUpForm onEnteredData={onEnteredDataHandler} />
 				<span className="text-sm my-2">

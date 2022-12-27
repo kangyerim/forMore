@@ -53,6 +53,10 @@ const SignUpForm = ({ onEnteredData }) => {
 		setCheckBoxInputContentList(updatedCheckBoxes);
 	};
 
+	const isEnableToSignUp = () => {
+		return !checkBoxInputContentList.every((input) => input.isChecked);
+	};
+
 	return (
 		<>
 			<h1 className="font-semibold text-xl font-black my-2">회원가입</h1>
@@ -100,7 +104,12 @@ const SignUpForm = ({ onEnteredData }) => {
 					</ul>
 				</div>
 
-				<button className="w-80 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black">회원가입</button>
+				<button
+					className="w-80 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black disabled:opacity-30"
+					disabled={isEnableToSignUp()}
+				>
+					회원가입
+				</button>
 			</form>
 		</>
 	);

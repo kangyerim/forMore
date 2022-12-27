@@ -30,18 +30,16 @@ const HomePage = () => {
 
 	return (
 		<>
-			<h1>HomePage</h1>
-			<nav>
-				<Link to="/home/mypage">마이페이지</Link>
-			</nav>
-			<div>
-				<button
-					className="w-20 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
-					onClick={logOutHandler}
-				>
-					로그아웃
-				</button>
+			<div className="grid grid-cols-3 justify-items-start">
+				<h1>forMore( )</h1>
+				<nav>
+					<Link to="/home/mypage">마이페이지</Link>
+				</nav>
+				<div>
+					<button onClick={logOutHandler}>로그아웃</button>
+				</div>
 			</div>
+
 			<Routes>
 				<Route path="mypage" element={<MyPage />} />
 			</Routes>
