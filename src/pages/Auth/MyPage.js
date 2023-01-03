@@ -1,18 +1,17 @@
 import { useSelector } from "react-redux";
 import MyInfoForm from "../../components/Auth/MyInfoForm";
 import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
-import { getAuth, sendPasswordResetEmail, updateEmail, updateProfile } from "firebase/auth";
+import { useState } from "react";
 import Modal from "../../components/Auth/common/Modal";
+import useModal from "../../hooks/modalHook";
+import useUserAuth from "../../hooks/userAuthHook";
 
 const MyPage = () => {
 	const navigate = useNavigate();
-	const auth = getAuth();
 	const userInfo = useSelector((state) => state.authen);
 	const [isUpdateMode, setUpdateMode] = useState(false);
-	const [showModal, setShowModal] = useState(false);
-	const [modalTitle, setModalTitle] = useState("");
-	const [modalBody, setModalBody] = useState("");
+	const { showModal, modalTitle, modalBody, openModal } = useModal();
+	const { changeLoginPassword, changeUserInfo } = useUserAuth();
 
 	const clickedButtonHandler = (action, { currentEmail, currentDisplayName }) => {
 		switch (action) {
@@ -23,34 +22,17 @@ const MyPage = () => {
 				setUpdateMode(!isUpdateMode);
 				break;
 			case "changePass":
-				changePassword();
-				setModalTitle("패스워드 변경");
-				setModalBody(`${userInfo.email} 이메일을 확인해주세요.`);
-				setShowModal(true);
+				changeLoginPassword();
+				openModal("패스워드 변경", `${userInfo.email} 이메일을 확인해주세요.`);
 				break;
 			case "save":
 				changeUserInfo(currentEmail, currentDisplayName);
-				setModalTitle("내 정보 변경");
-				setModalBody(`수정이 완료되었습니다.`);
-				setShowModal(true);
+				openModal("내 정보 변경", "수정이 완료되었습니다.");
 				setTimeout(() => {
 					window.location.reload();
-				}, 3001);
+				}, 3000);
 				break;
 		}
-
-		setTimeout(() => {
-			setShowModal(false);
-		}, 3000);
-	};
-
-	const changePassword = async () => {
-		await sendPasswordResetEmail(auth, userInfo.email);
-	};
-
-	const changeUserInfo = async (currentEmail, currentDisplayName) => {
-		await updateEmail(auth.currentUser, currentEmail);
-		await updateProfile(auth.currentUser, { displayName: currentDisplayName });
 	};
 
 	return (

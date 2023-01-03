@@ -4,12 +4,11 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Auth/common/Modal";
 import { useState } from "react";
+import useModal from "../../hooks/modalHook";
 
 const SignUpPage = () => {
 	const navigate = useNavigate();
-	const [showModal, setShowModal] = useState(false);
-	const [modalTitle, setModalTitle] = useState("");
-	const [modalBody, setModalBody] = useState("");
+	const { showModal, modalTitle, modalBody, openModal } = useModal();
 
 	const onEnteredDataHandler = async (enteredData) => {
 		const { email, password, nickName } = enteredData;
@@ -33,13 +32,9 @@ const SignUpPage = () => {
 		}
 	};
 	const updateUserNickName = async (user, nickName) => {
-		console.log(user, nickName);
-
 		try {
 			await updateProfile(user, { displayName: nickName });
-			setModalTitle("회원가입");
-			setModalBody(`반갑습니다. ${nickName}님! 가입이 완료되었습니다.`);
-			setShowModal(true);
+			openModal("회원가입", `반갑습니다. ${nickName}님! 가입이 완료되었습니다.`);
 
 			setTimeout(() => {
 				navigate("/login");

@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { signOut, getAuth } from "firebase/auth";
-import { useNavigate, Routes, Route, Link, Outlet } from "react-router-dom";
-import { authService } from "../firebase";
+import { Routes, Route, Link, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authenActions } from "../store/authenSlice";
 import MyPage from "../pages/Auth/MyPage";
+import useUserAuth from "../hooks/userAuthHook";
 
 const HomePage = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const currentUser = authenActions.currentUser;
+	const { requestLogout } = useUserAuth();
 
 	useEffect(() => {
 		if (!currentUser) {
@@ -20,14 +19,6 @@ const HomePage = () => {
 		}
 	}, []);
 
-	const logOutHandler = async () => {
-		await dispatch(authenActions.logOut());
-		await signOut(authService);
-
-		console.log("Sign-out successful");
-		navigate("/");
-	};
-
 	return (
 		<>
 			<div className="grid grid-cols-3 justify-items-start">
@@ -36,7 +27,7 @@ const HomePage = () => {
 					<Link to="/home/mypage">마이페이지</Link>
 				</nav>
 				<div>
-					<button onClick={logOutHandler}>로그아웃</button>
+					<button onClick={requestLogout}>로그아웃</button>
 				</div>
 			</div>
 

@@ -1,14 +1,10 @@
 import AuthForm from "../../components/Auth/AuthForm";
-
-import { useDispatch } from "react-redux";
-import { authService } from "../../firebase";
-import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { authenActions } from "../../store/authenSlice";
+import useUserAuth from "../../hooks/userAuthHook";
 
 const AuthPage = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const { requestLogin } = useUserAuth();
 
 	const onEnteredDataHandler = (enteredData) => {
 		const { email, password, cookieLogin } = enteredData;
@@ -20,26 +16,8 @@ const AuthPage = () => {
 		}
 
 		if (email && password) {
-			onLogin({ email, password });
+			requestLogin(email, password);
 		}
-	};
-
-	const onLogin = async ({ email, password }) => {
-		await setPersistence(authService, browserSessionPersistence);
-		await signInWithEmailAndPassword(authService, email, password)
-			.then((UserCredentialImpl) => {
-				const { user } = UserCredentialImpl;
-
-				dispatch(authenActions.logIn(user));
-				navigate("/home");
-			})
-			.catch((error) => {
-				let errorMsg = "Authentiacation Failed!";
-				if (error?.message) {
-					errorMsg = error.message;
-				}
-				alert(errorMsg);
-			});
 	};
 
 	const onRouteToSignUp = () => {
