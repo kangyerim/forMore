@@ -48,6 +48,7 @@ const useUserAuth = () => {
 	const requestLogout = async () => {
 		await dispatch(authenActions.logOut());
 		await signOut(authService);
+		sessionStorage.removeItem(`firebase:authUser:${process.env.REACT_APP_APIKEY}:[DEFAULT]`);
 
 		console.log("Sign-out successful");
 		navigate("/");

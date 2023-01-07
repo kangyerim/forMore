@@ -17,7 +17,6 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 	};
 
 	useEffect(() => {
-		console.log("isUpdateMode   ? ", isUpdateMode);
 		if (isUpdateMode) {
 			emailInputRef.current.value = email;
 			displayNameInputRef.current.value = displayName;

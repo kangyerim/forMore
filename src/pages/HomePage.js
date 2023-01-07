@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { authenActions } from "../store/authenSlice";
 import MyPage from "../pages/Auth/MyPage";
 import useUserAuth from "../hooks/userAuthHook";
+import TimerPage from "./Timer/TimerPage";
 
 const HomePage = () => {
 	const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const HomePage = () => {
 				<h1>forMore( )</h1>
 				<nav>
 					<Link to="/home/mypage">마이페이지</Link>
+					<Link to="/home/timer">타이머만들기</Link>
 				</nav>
 				<div>
 					<button onClick={requestLogout}>로그아웃</button>
@@ -32,6 +34,7 @@ const HomePage = () => {
 			</div>
 
 			<Routes>
+				<Route path="timer" element={<TimerPage />} />
 				<Route path="mypage" element={<MyPage />} />
 			</Routes>
 		</>
