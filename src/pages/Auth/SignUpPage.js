@@ -2,9 +2,9 @@ import SignUpForm from "../../components/Auth/SignUpForm";
 import { authService } from "../../firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../components/Auth/common/Modal";
+import Modal from "../../components/common/Modal";
 import { useState } from "react";
-import useModal from "../../hooks/modalHook";
+import useModal from "../../hooks/UseModal";
 
 const SignUpPage = () => {
 	const navigate = useNavigate();

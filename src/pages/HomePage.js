@@ -3,7 +3,7 @@ import { Routes, Route, Link, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authenActions } from "../store/authenSlice";
 import MyPage from "../pages/Auth/MyPage";
-import useUserAuth from "../hooks/userAuthHook";
+import useUserAuth from "../hooks/UseUserAuth";
 import TimerPage from "./Timer/TimerPage";
 
 const HomePage = () => {

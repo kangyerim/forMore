@@ -2,9 +2,9 @@ import { useSelector } from "react-redux";
 import MyInfoForm from "../../components/Auth/MyInfoForm";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Modal from "../../components/Auth/common/Modal";
-import useModal from "../../hooks/modalHook";
-import useUserAuth from "../../hooks/userAuthHook";
+import Modal from "../../components/common/Modal";
+import useModal from "../../hooks/UseModal";
+import useUserAuth from "../../hooks/UseUserAuth";
 
 const MyPage = () => {
 	const navigate = useNavigate();

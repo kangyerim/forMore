@@ -1,6 +1,6 @@
 import AuthForm from "../../components/Auth/AuthForm";
 import { useNavigate } from "react-router-dom";
-import useUserAuth from "../../hooks/userAuthHook";
+import useUserAuth from "../../hooks/UseUserAuth";
 
 const AuthPage = () => {
 	const navigate = useNavigate();
