@@ -23,7 +23,7 @@ const AuthForm = ({ onEnteredData }) => {
 					<input
 						type="email"
 						id="email"
-						placeholder="   이메일"
+						placeholder="이메일"
 						className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
 						ref={emailInputRef}
 						required
@@ -33,7 +33,7 @@ const AuthForm = ({ onEnteredData }) => {
 					<input
 						type="password"
 						id="password"
-						placeholder="   비밀번호"
+						placeholder="비밀번호"
 						className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
 						ref={passwordInputRef}
 						required

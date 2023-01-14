@@ -1,9 +1,14 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import useRegularExp from "../../hooks/UseRegularExp";
 
 const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 	const { email, displayName } = userInfo;
 	const emailInputRef = useRef();
 	const displayNameInputRef = useRef();
+	const { isEmailAddressForm, isEightCharacterLess } = useRegularExp();
+
+	const [emailValidError, setEmailValidError] = useState("");
+	const [nickNameValidError, setNickNameValidError] = useState("");
 
 	const onClickButton = (action) => {
 		if (action === "save") {
@@ -13,6 +18,23 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 			emitClickedAction(action, { currentEmail, currentDisplayName });
 		} else {
 			emitClickedAction(action, {});
+		}
+	};
+
+	const checkValidation = (event) => {
+		const value = event.target.value;
+		const targetID = event.target.id;
+
+		let result = false;
+		switch (targetID) {
+			case "email":
+				result = isEmailAddressForm(value);
+				setEmailValidError(result);
+				break;
+			case "displayName":
+				result = isEightCharacterLess(value);
+				setNickNameValidError(result);
+				break;
 		}
 	};
 
@@ -29,14 +51,18 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 			<form>
 				<div>
 					{isUpdateMode ? (
-						<input
-							type="email"
-							id="email"
-							className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
-							placeholder={email}
-							ref={emailInputRef}
-							required
-						/>
+						<div>
+							<input
+								type="email"
+								id="email"
+								className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
+								placeholder={email}
+								ref={emailInputRef}
+								onChange={checkValidation}
+								required
+							/>
+							{emailValidError && <p>{emailValidError}</p>}
+						</div>
 					) : (
 						<div>
 							{" "}
@@ -49,14 +75,18 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 				</div>
 				<div>
 					{isUpdateMode ? (
-						<input
-							type="text"
-							id="displayName"
-							className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
-							placeholder={displayName}
-							ref={displayNameInputRef}
-							required
-						/>
+						<div>
+							<input
+								type="text"
+								id="displayName"
+								className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
+								placeholder={displayName}
+								ref={displayNameInputRef}
+								onChange={checkValidation}
+								required
+							/>
+							{nickNameValidError && <p>{nickNameValidError}</p>}
+						</div>
 					) : (
 						<div>
 							<label htmlFor="displayName" className="text-sm">
