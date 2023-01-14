@@ -38,6 +38,14 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 		}
 	};
 
+	const isEnableToSave = () => {
+		const emailValid = 1 > emailValidError.length ? true : false;
+		const nickNameValid = 1 > nickNameValidError.length ? true : false;
+
+		// true : 잠김 , false : 풀림
+		return !(emailValid && nickNameValid);
+	};
+
 	useEffect(() => {
 		if (isUpdateMode) {
 			emailInputRef.current.value = email;
@@ -118,9 +126,9 @@ const MyInfoForm = ({ userInfo, isUpdateMode, emitClickedAction }) => {
 							취소
 						</button>
 						<button
-							type="button"
-							className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
+							className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black disabled:opacity-30"
 							onClick={(e) => onClickButton("save", e)}
+							disabled={isEnableToSave()}
 						>
 							저장
 						</button>
