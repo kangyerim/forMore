@@ -1,45 +1,27 @@
-import SignUpForm from "../../components/Auth/SignUpForm";
-import { authService } from "../../firebase";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import SignUpForm from "../../components/Auth/SignUpForm";
 import Modal from "../../components/common/Modal";
-import { useState } from "react";
 import useModal from "../../hooks/UseModal";
+import useUserAuth from "../../hooks/UseUserAuth";
 
 const SignUpPage = () => {
 	const navigate = useNavigate();
 	const { showModal, modalTitle, modalBody, openModal } = useModal();
+	const { createUser } = useUserAuth();
 
 	const onEnteredDataHandler = async (enteredData) => {
 		const { email, password, nickName } = enteredData;
 
 		if (email && password && nickName) {
-			const responsedUser = await createUser(email, password);
-			if (responsedUser) {
-				await updateUserNickName(responsedUser, nickName);
+			const { result, message } = await createUser(email, password);
+
+			openModal(`회원가입 ${result ? "성공" : "실패"}`, message);
+			if (result) {
+				setTimeout(() => {
+					navigate("/login");
+				}, 3000);
 			}
 		}
-	};
-
-	const createUser = async (email, password) => {
-		const createUserResponse = await createUserWithEmailAndPassword(authService, email, password);
-
-		if (createUserResponse?.user) {
-			const createdUser = createUserResponse?.user;
-			return createdUser;
-		} else {
-			return null;
-		}
-	};
-	const updateUserNickName = async (user, nickName) => {
-		try {
-			await updateProfile(user, { displayName: nickName });
-			openModal("회원가입", `반갑습니다. ${nickName}님! 가입이 완료되었습니다.`);
-
-			setTimeout(() => {
-				navigate("/login");
-			}, 3000);
-		} catch (error) {}
 	};
 
 	const onRouteToLogin = () => {
