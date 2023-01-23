@@ -20,6 +20,8 @@ const useUserAuth = () => {
 	const userInfo = useSelector((state) => state.authen);
 
 	const requestLogin = async (email, password) => {
+		let response = {};
+
 		await setPersistence(authService, browserSessionPersistence);
 		await signInWithEmailAndPassword(authService, email, password)
 			.then((UserCredentialImpl) => {
@@ -27,14 +29,26 @@ const useUserAuth = () => {
 
 				dispatch(authenActions.logIn(user));
 				navigate("/home");
+
+				response = { result: true, message: "" };
 			})
 			.catch((error) => {
-				let errorMsg = "Authentiacation Failed!";
+				let errorMessage = "Authentiacation Failed!";
 				if (error?.message) {
-					errorMsg = error.message;
+					const errorCode = error.message;
+
+					if (errorCode.includes("user-not-found")) {
+						errorMessage = "아이디를 다시 확인해주세요.";
+					} else if (errorCode.includes("password")) {
+						errorMessage = "비밀번호를 다시 확인해주세요.";
+					} else if (errorCode.includes("too-many-requests")) {
+						errorMessage = "로그인 시도 횟수를 초과하였습니다. 잠시후 다시 시도해주세요.";
+					}
 				}
-				alert(errorMsg);
+				response = { result: false, message: errorMessage };
 			});
+
+		return response;
 	};
 
 	const changeLoginPassword = async () => {

@@ -1,12 +1,15 @@
 import AuthForm from "../../components/Auth/AuthForm";
 import { useNavigate } from "react-router-dom";
 import useUserAuth from "../../hooks/UseUserAuth";
+import useModal from "../../hooks/UseModal";
+import Modal from "../../components/common/Modal";
 
 const AuthPage = () => {
 	const navigate = useNavigate();
 	const { requestLogin } = useUserAuth();
+	const { showModal, modalTitle, modalBody, openModal } = useModal();
 
-	const onEnteredDataHandler = (enteredData) => {
+	const onEnteredDataHandler = async (enteredData) => {
 		const { email, password, cookieLogin } = enteredData;
 
 		if (cookieLogin) {
@@ -16,7 +19,10 @@ const AuthPage = () => {
 		}
 
 		if (email && password) {
-			requestLogin(email, password);
+			const { result, message } = await requestLogin(email, password);
+			if (!result) {
+				openModal("로그인 실패", message);
+			}
 		}
 	};
 
@@ -26,6 +32,7 @@ const AuthPage = () => {
 
 	return (
 		<>
+			{showModal && <Modal title={modalTitle} body={modalBody}></Modal>}
 			<div className="grid grid-cols-1 justify-items-center my-60">
 				<AuthForm onEnteredData={onEnteredDataHandler} />
 				<span className="text-sm my-2">
