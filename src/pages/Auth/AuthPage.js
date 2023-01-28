@@ -3,11 +3,17 @@ import { useNavigate } from "react-router-dom";
 import useUserAuth from "../../hooks/UseUserAuth";
 import useModal from "../../hooks/UseModal";
 import Modal from "../../components/common/Modal";
+import UseUserCollection from "../../hooks/useUserCollection";
+import { useDispatch, useSelector } from "react-redux";
+import { authenActions } from "../../store/authenSlice";
 
 const AuthPage = () => {
 	const navigate = useNavigate();
 	const { requestLogin } = useUserAuth();
 	const { showModal, modalTitle, modalBody, openModal } = useModal();
+	const { addUserDocument, updateUserDocument } = UseUserCollection();
+	const dispatch = useDispatch();
+	const userInfo = useSelector((state) => state.authen);
 
 	const onEnteredDataHandler = async (enteredData) => {
 		const { email, password, cookieLogin } = enteredData;
@@ -19,9 +25,13 @@ const AuthPage = () => {
 		}
 
 		if (email && password) {
-			const { result, message } = await requestLogin(email, password);
-			if (!result) {
+			const { result, message, returnedValue } = await requestLogin(email, password);
+
+			if (!result || !returnedValue) {
 				openModal("로그인 실패", message);
+			} else {
+				dispatch(authenActions.logIn(returnedValue));
+				updateUserDocument();
 			}
 		}
 	};

@@ -13,7 +13,7 @@ const MyPage = () => {
 	const { showModal, modalTitle, modalBody, openModal } = useModal();
 	const { changeLoginPassword, changeUserInfo } = useUserAuth();
 
-	const clickedButtonHandler = (action, { currentEmail, currentDisplayName }) => {
+	const clickedButtonHandler = async (action, { currentEmail, currentDisplayName }) => {
 		switch (action) {
 			case "navigate":
 				navigate("/home");
@@ -22,11 +22,11 @@ const MyPage = () => {
 				setUpdateMode(!isUpdateMode);
 				break;
 			case "changePass":
-				changeLoginPassword();
+				await changeLoginPassword();
 				openModal("패스워드 변경", `${userInfo.email} 이메일을 확인해주세요.`);
 				break;
 			case "save":
-				changeUserInfo(currentEmail, currentDisplayName);
+				await changeUserInfo(currentEmail, currentDisplayName);
 				openModal("내 정보 변경", "수정이 완료되었습니다.");
 				setTimeout(() => {
 					window.location.reload();

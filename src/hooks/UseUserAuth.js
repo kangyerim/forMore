@@ -13,7 +13,6 @@ import { authService } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { authenActions } from "../store/authenSlice";
-import { async } from "@firebase/util";
 
 const useUserAuth = () => {
 	const dispatch = useDispatch();
@@ -28,11 +27,7 @@ const useUserAuth = () => {
 		await signInWithEmailAndPassword(authService, email, password)
 			.then((UserCredentialImpl) => {
 				const { user } = UserCredentialImpl;
-
-				dispatch(authenActions.logIn(user));
-				navigate("/home");
-
-				response = { result: true, message: "" };
+				response = { result: true, message: "", returnedValue: user };
 			})
 			.catch((error) => {
 				let errorMessage = "Authentiacation Failed!";
@@ -56,8 +51,12 @@ const useUserAuth = () => {
 		await sendPasswordResetEmail(auth, userInfo.email);
 	};
 	const changeUserInfo = async (currentEmail, currentDisplayName) => {
-		await updateEmail(auth.currentUser, currentEmail);
-		await updateProfile(auth.currentUser, { displayName: currentDisplayName });
+		try {
+			await updateEmail(auth.currentUser, currentEmail);
+			await updateProfile(auth.currentUser, { displayName: currentDisplayName });
+		} catch (error) {
+			console.log("˚₊·—̳͟͞͞♡  error", error);
+		}
 	};
 
 	const requestLogout = async () => {
