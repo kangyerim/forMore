@@ -68,7 +68,7 @@ const TimerForm = ({ emitClickedAction }) => {
 				<button
 					type="button"
 					className="w-40 h-10  border-slate-300 rounded-md mb-2 my-4 text-white bg-black"
-					onClick={(e) => onClickButton("save")}
+					onClick={(e) => onClickButton("delete")}
 				>
 					생성
 				</button>
