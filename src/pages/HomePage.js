@@ -1,21 +1,38 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Routes, Route, Link, Outlet } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authenActions } from "../store/authenSlice";
 import MyPage from "../pages/Auth/MyPage";
 import useUserAuth from "../hooks/UseUserAuth";
 import TimerPage from "./Timer/TimerPage";
+import useUserCollection from "../hooks/useUserCollection";
+import useTodosCollection from "../hooks/useTodosCollection";
 
 const HomePage = () => {
 	const dispatch = useDispatch();
 	const currentUser = authenActions.currentUser;
 	const { requestLogout } = useUserAuth();
+	const { updateUserDocument } = useUserCollection();
+	const { getTodoList } = useTodosCollection();
+	const userInfo = useSelector((state) => state.authenSlice);
+	const [todoList, setTodoList] = useState([]);
+
+	useEffect(() => {
+		if (userInfo.email) {
+			updateUserDocument();
+
+			getTodoList().then((result) => {
+				setTodoList(() => {
+					return [...result];
+				});
+			});
+		}
+	}, [userInfo]);
 
 	useEffect(() => {
 		if (!currentUser) {
 			const sessionUserInfo = sessionStorage.getItem(`firebase:authUser:${process.env.REACT_APP_APIKEY}:[DEFAULT]`);
 			const userInfo = JSON.parse(sessionUserInfo);
-
 			dispatch(authenActions.logIn(userInfo));
 		}
 	}, []);
@@ -37,6 +54,18 @@ const HomePage = () => {
 				<Route path="timer" element={<TimerPage />} />
 				<Route path="mypage" element={<MyPage />} />
 			</Routes>
+
+			{todoList &&
+				todoList.map((todo, index) => {
+					return (
+						<div key={todo.uid}>
+							<span>{todo.title}</span>
+							<span>
+								{todo.focusTime} / {todo.restTime}
+							</span>
+						</div>
+					);
+				})}
 		</>
 	);
 };
