@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const userInfo = {
+const initedUserInfo = {
 	uid: "",
 	email: "",
 	displayName: "",
@@ -14,7 +14,7 @@ const userInfo = {
 
 export const authenSlice = createSlice({
 	name: "authen",
-	initialState: userInfo,
+	initialState: initedUserInfo,
 	reducers: {
 		logIn: (state, { payload: userInfo }) => {
 			state.uid = userInfo.uid;

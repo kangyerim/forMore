@@ -18,7 +18,7 @@ const useUserAuth = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const auth = getAuth();
-	const userInfo = useSelector((state) => state.authen);
+	const userInfo = useSelector((state) => state.authenSlice);
 
 	const requestLogin = async (email, password) => {
 		let response = {};

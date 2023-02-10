@@ -1,9 +1,9 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
-import authenReducer from "../store/authenSlice";
+import authenSlice from "./authenSlice";
 
 export default configureStore({
 	reducer: {
-		authen: authenReducer,
+		authenSlice: authenSlice,
 	},
 	middleware: getDefaultMiddleware({
 		serializableCheck: false,

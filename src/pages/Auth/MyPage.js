@@ -8,7 +8,7 @@ import useUserAuth from "../../hooks/UseUserAuth";
 
 const MyPage = () => {
 	const navigate = useNavigate();
-	const userInfo = useSelector((state) => state.authen);
+	const userInfo = useSelector((state) => state.authenSlice);
 	const [isUpdateMode, setUpdateMode] = useState(false);
 	const { showModal, modalTitle, modalBody, openModal } = useModal();
 	const { changeLoginPassword, changeUserInfo } = useUserAuth();
