@@ -7,6 +7,7 @@ import useUserAuth from "../hooks/UseUserAuth";
 import TimerPage from "./Timer/TimerPage";
 import useUserCollection from "../hooks/useUserCollection";
 import useTodosCollection from "../hooks/useTodosCollection";
+import TodoList from "./Timer/TodoList";
 
 const HomePage = () => {
 	const dispatch = useDispatch();
@@ -59,21 +60,10 @@ const HomePage = () => {
 			</div>
 
 			<Routes>
+				<Route path="" element={<TodoList />} />
 				<Route path="timer" element={<TimerPage />} />
 				<Route path="mypage" element={<MyPage />} />
 			</Routes>
-
-			{/* {todoList &&
-				todoList.map((todo, index) => {
-					return (
-						<div key={todo.uid}>
-							<span>{todo.title}</span>
-							<span>
-								{todo.focusTime} / {todo.restTime}
-							</span>
-						</div>
-					);
-				})} */}
 		</>
 	);
 };
