@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Routes, Route, Link, Outlet } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authenActions } from "../store/authenSlice";
 import MyPage from "../pages/Auth/MyPage";
@@ -10,6 +10,7 @@ import useTodosCollection from "../hooks/useTodosCollection";
 
 const HomePage = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const currentUser = authenActions.currentUser;
 	const { requestLogout } = useUserAuth();
 	const { updateUserDocument } = useUserCollection();
@@ -37,16 +38,23 @@ const HomePage = () => {
 		}
 	}, []);
 
+	const goHome = () => {
+		navigate("/home");
+	};
+
 	return (
 		<>
-			<div className="grid grid-cols-3 justify-items-start">
-				<h1>forMore( )</h1>
-				<nav>
-					<Link to="/home/mypage">마이페이지</Link>
-					<Link to="/home/timer">타이머만들기</Link>
-				</nav>
+			<div className="h-14 flex justify-between items-center">
+				<h1 className="text-2xl font-bold mx-4" onClick={goHome}>
+					forMore( )
+				</h1>
 				<div>
-					<button onClick={requestLogout}>로그아웃</button>
+					<Link to="/home/mypage" className="mx-4">
+						내 정보
+					</Link>
+					<button onClick={requestLogout} className="mx-4">
+						로그아웃
+					</button>
 				</div>
 			</div>
 
@@ -55,7 +63,7 @@ const HomePage = () => {
 				<Route path="mypage" element={<MyPage />} />
 			</Routes>
 
-			{todoList &&
+			{/* {todoList &&
 				todoList.map((todo, index) => {
 					return (
 						<div key={todo.uid}>
@@ -65,7 +73,7 @@ const HomePage = () => {
 							</span>
 						</div>
 					);
-				})}
+				})} */}
 		</>
 	);
 };

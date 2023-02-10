@@ -98,36 +98,40 @@ const SignUpForm = ({ onEnteredData }) => {
 						type="text"
 						id="nickName"
 						placeholder="닉네임"
-						className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
+						className={`w-80 h-10 border-2 border-slate-300 rounded-md mb-2 ${
+							nickNameValidError ? "border-red-500" : ""
+						}`}
 						ref={nickNameInputRef}
 						onChange={checkValidation}
 						required
 					/>
-					{nickNameValidError && <p>{nickNameValidError}</p>}
+					{nickNameValidError && <p className="text-xs text-red-400">{nickNameValidError}</p>}
 				</div>
 				<div>
 					<input
 						type="email"
 						id="email"
 						placeholder="이메일"
-						className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
+						className={`w-80 h-10 border-2 border-slate-300 rounded-md mb-2 ${emailValidError ? "border-red-500" : ""}`}
 						ref={emailInputRef}
 						onChange={checkValidation}
 						required
 					/>
-					{emailValidError && <p>{emailValidError}</p>}
+					{emailValidError && <p className="text-xs text-red-400">{emailValidError}</p>}
 				</div>
 				<div>
 					<input
 						type="password"
 						id="password"
 						placeholder="비밀번호"
-						className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
+						className={`w-80 h-10 border-2 border-slate-300 rounded-md mb-2 ${
+							passwordValidError ? "border-red-500" : ""
+						} `}
 						ref={passwordInputRef}
 						onChange={checkValidation}
 						required
 					/>
-					{passwordValidError && <p>{passwordValidError}</p>}
+					{passwordValidError && <p className="text-xs text-red-400">{passwordValidError}</p>}
 				</div>
 				<div>
 					<ul>
