@@ -45,15 +45,15 @@ const HomePage = () => {
 
 	return (
 		<>
-			<div className="h-14 flex justify-between items-center">
+			<div className="w-full h-14 z-10 flex justify-between items-center absolute ">
 				<h1 className="text-2xl font-bold mx-4" onClick={goHome}>
 					forMore( )
 				</h1>
 				<div>
-					<Link to="/home/mypage" className="mx-4">
+					<Link to="/home/mypage" className="mx-4 font-bold">
 						내 정보
 					</Link>
-					<button onClick={requestLogout} className="mx-4">
+					<button onClick={requestLogout} className="mx-4 font-bold">
 						로그아웃
 					</button>
 				</div>

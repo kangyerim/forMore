@@ -11,7 +11,7 @@ const TodoList = () => {
 		if (userInfo.email) {
 			getTodoList().then((result) => {
 				setTodoList(() => {
-					return [...result];
+					return [...result, { title: "더하기", color: "grey" }];
 				});
 			});
 		}
@@ -22,13 +22,19 @@ const TodoList = () => {
 			<div className="flex items-center">
 				{todoList &&
 					todoList.map((todo, index) => {
-						return (
-							<div className="h-screen bg-slate-200" key={todo.uid}>
-								<span>{todo.title}</span>
-								<span>
-									{todo.focusTime} / {todo.restTime}
-								</span>
-							</div>
+						return index === 0 ? (
+							<>
+								{" "}
+								<div className={`w-4/5 h-screen bg-${todo.color}-200 flex justify-center`} key={todo.uid}>
+									<h1 className="text-2xl font-bold align-middle ">{todo.title}</h1>
+								</div>
+							</>
+						) : (
+							<>
+								<div className={`w-20 h-screen bg-${todo.color}-200 flex items-center justify-center`} key={todo.uid}>
+									<h1 className="text-2xl font-bold align-middle whitespace-nowrap -rotate-90">{todo.title}</h1>
+								</div>
+							</>
 						);
 					})}
 			</div>
