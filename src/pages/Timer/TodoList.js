@@ -18,6 +18,17 @@ const TodoList = () => {
 		}
 	}, [userInfo]);
 
+	const changeOrder = (event, index) => {
+		let currentList = todoList.splice(0, todoList.length - 1);
+
+		let front = currentList.splice(index, currentList.length);
+		let back = currentList.splice(0, index);
+
+		setTodoList(() => {
+			return [...front, ...back, { title: "+", color: "grey", uid: String(new Date()) }];
+		});
+	};
+
 	return (
 		<>
 			<div className="flex items-center">
@@ -32,7 +43,12 @@ const TodoList = () => {
 							</div>
 						) : (
 							<div className={`w-20 h-screen bg-${todo.color}-200 flex items-center justify-center`} key={todo.uid}>
-								<h1 className="text-2xl font-bold align-middle whitespace-nowrap -rotate-90">{todo.title}</h1>
+								<h1
+									className="text-2xl font-bold align-middle whitespace-nowrap -rotate-90"
+									onClick={(e) => changeOrder(e, index)}
+								>
+									{todo.title}
+								</h1>
 							</div>
 						);
 					})}
