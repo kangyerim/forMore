@@ -38,7 +38,9 @@ const TodoList = () => {
 							<div className={`w-4/5 h-screen bg-${todo.color}-200 flex justify-center relative`} key={todo.uid}>
 								<h1 className="h-fit top-3 text-2xl font-bold align-middle absolute ">{todo.title}</h1>
 								<div className="absolute top-20">
-									<TimerPage />
+									{/* <TimerPage todo={todo} /> */}
+									<span className="text-2xl font-bold"> {todo.focusTime}/</span>
+									<span className="text-2xl font-bold">{todo.restTime}</span>
 								</div>
 							</div>
 						) : (

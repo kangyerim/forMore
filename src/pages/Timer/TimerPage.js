@@ -1,7 +1,7 @@
 import useTodosCollection from "../../hooks/useTodosCollection";
 import TimerForm from "../../components/Timer/TimerForm";
 
-const TimerPage = () => {
+const TimerPage = ({ todo }) => {
 	const { createTodo, updateTodo, deleteTodo } = useTodosCollection();
 
 	const handleClickedAction = (
@@ -19,7 +19,7 @@ const TimerPage = () => {
 	};
 	return (
 		<>
-			<TimerForm emitClickedAction={handleClickedAction}></TimerForm>
+			<TimerForm todo={todo} emitClickedAction={handleClickedAction}></TimerForm>
 		</>
 	);
 };

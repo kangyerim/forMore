@@ -2,7 +2,7 @@ import TagColor from "../../constants/TagColor";
 import TimerTime from "../../constants/TimerTime";
 import { useRef } from "react";
 
-const TimerForm = ({ emitClickedAction }) => {
+const TimerForm = ({ todo, emitClickedAction }) => {
 	const timerTitleRef = useRef();
 	const tagColorRef = useRef();
 	const focusTimeRef = useRef();
