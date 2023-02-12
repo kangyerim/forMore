@@ -19,44 +19,53 @@ const TimerForm = ({ emitClickedAction }) => {
 
 	return (
 		<>
-			<h1 className="font-semibold text-xl font-black my-2">타이머 등록</h1>
 			<form>
-				<input
-					ref={timerTitleRef}
-					type="text"
-					id="title"
-					placeholder="이름"
-					className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
-					required
-				/>
+				<div>
+					<input
+						ref={timerTitleRef}
+						type="text"
+						id="title"
+						placeholder="이름"
+						className="w-80 h-10 border-2 border-slate-300 rounded-md mb-2"
+						required
+					/>
+				</div>
 
-				<select ref={tagColorRef}>
-					{TagColor.map((tag) => {
-						return (
-							<option key={tag.code} value={tag.code}>
-								{tag.name}
-							</option>
-						);
-					})}
-				</select>
-				<select ref={focusTimeRef}>
-					{TimerTime.map((time) => {
-						return (
-							<option key={time.time} value={time.time}>
-								{time.text}
-							</option>
-						);
-					})}
-				</select>
-				<select ref={restTimeRef}>
-					{TimerTime.map((time) => {
-						return (
-							<option key={time.time} value={time.time}>
-								{time.text}
-							</option>
-						);
-					})}
-				</select>
+				<div>
+					<select ref={tagColorRef}>
+						{TagColor.map((tag) => {
+							return (
+								<option key={tag.code} value={tag.code}>
+									{tag.name}
+								</option>
+							);
+						})}
+					</select>
+				</div>
+
+				<div>
+					<select ref={focusTimeRef}>
+						{TimerTime.map((time) => {
+							return (
+								<option key={time.time} value={time.time}>
+									{time.text}
+								</option>
+							);
+						})}
+					</select>
+				</div>
+
+				<div>
+					<select ref={restTimeRef}>
+						{TimerTime.map((time) => {
+							return (
+								<option key={time.time} value={time.time}>
+									{time.text}
+								</option>
+							);
+						})}
+					</select>
+				</div>
 
 				<button
 					type="button"
