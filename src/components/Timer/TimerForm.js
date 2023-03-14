@@ -1,8 +1,8 @@
 import TagColor from "../../constants/TagColor";
 import TimerTime from "../../constants/TimerTime";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const TimerForm = ({ todo, emitClickedAction }) => {
+const TimerForm = ({ todo, isUpdateMode, emitClickedAction }) => {
 	const timerTitleRef = useRef();
 	const tagColorRef = useRef();
 	const focusTimeRef = useRef();
@@ -16,6 +16,15 @@ const TimerForm = ({ todo, emitClickedAction }) => {
 
 		emitClickedAction(action, { currentTitle, currentTagColor, currentFocusTime, currentRestTime });
 	};
+
+	useEffect(() => {
+		if (todo) {
+			timerTitleRef.current.value = todo.title;
+			tagColorRef.current.value = todo.color;
+			focusTimeRef.current.value = todo.focusTime;
+			restTimeRef.current.value = todo.restTime;
+		}
+	}, [todo]);
 
 	return (
 		<>

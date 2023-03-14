@@ -44,7 +44,10 @@ const TodoList = () => {
 		});
 	};
 
-	const changeMode = () => {
+	const changeMode = (action) => {
+		setAction(() => {
+			return action;
+		});
 		setUpdateMode(() => {
 			return !isUpdateMode;
 		});
@@ -56,21 +59,20 @@ const TodoList = () => {
 				{todoList &&
 					todoList.map((todo, index) => {
 						return index === 0 ? (
-							<div className={`w-4/5 z-10 h-screen bg-${todo.color}-200 flex relative`} key={todo.uid}>
+							<div className={`w-4/5 z-10 h-screen bg-red-200 flex relative`} key={todo.uid}>
 								{isUpdateMode ? (
 									<>
-										{" "}
 										<h1 className="h-fit top-20 text-7xl font-bold align-middle absolute ">{todo.title}</h1>
 										<div className="absolute bottom-20">
 											<span className="text-9xl font-bold"> {todo.focusTime}/</span>
 											<span className="text-9xl font-bold">{todo.restTime}</span>
-											<button className="underline" onClick={changeMode}>
+											<button className="underline" onClick={() => changeMode("update")}>
 												수정
 											</button>
 										</div>
 									</>
 								) : (
-									<TimerPage todo={todo} isUpdateMode={isUpdateMode} action={action} onCancel={changeMode} />
+									<TimerPage todo={todo} action={action} onCancel={changeMode} />
 								)}
 							</div>
 						) : (

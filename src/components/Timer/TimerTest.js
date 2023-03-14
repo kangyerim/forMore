@@ -2,19 +2,21 @@ import TagColor from "../../constants/TagColor";
 import TimerTime from "../../constants/TimerTime";
 import { useEffect, useRef, useState } from "react";
 
-const TimerTest = ({ todo, isUpdateMode, emitClickedAction, action }) => {
+const TimerTest = ({ todo, emitClickedAction, action }) => {
 	const timerTitleRef = useRef();
 	const [tagColor, setTagColor] = useState("");
 	const focusTimeRef = useRef();
 	const restTimeRef = useRef();
 
-	const onClickButton = (action) => {
+	const onClickButton = (requestedAction) => {
 		const currentTitle = timerTitleRef.current.value;
 		const currentTagColor = tagColor;
 		const currentFocusTime = focusTimeRef.current.value;
 		const currentRestTime = restTimeRef.current.value;
+		const uniqueID = todo?.uid;
 
-		emitClickedAction(action, { currentTitle, currentTagColor, currentFocusTime, currentRestTime });
+		console.log(">>>>>> ", todo);
+		emitClickedAction(requestedAction, { uniqueID, currentTitle, currentTagColor, currentFocusTime, currentRestTime });
 	};
 
 	const radioInputHandle = (tag) => {
