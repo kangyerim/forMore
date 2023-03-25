@@ -13,7 +13,7 @@ const TodoList = () => {
 	const [todoList, setTodoList] = useState([]);
 	const [isUpdateMode, setUpdateMode] = useState(true);
 	const [action, setAction] = useState("");
-	const { showModal, modalTitle, modalBody, openModal } = useModal();
+	const { showModal, modalTitle, modalBody, buttonAction, useCancelButton, openModal, closeModal } = useModal();
 
 	useEffect(() => {
 		if (userInfo.email) {
@@ -59,8 +59,7 @@ const TodoList = () => {
 				return !isUpdateMode;
 			});
 		} else {
-			console.log("˚₊·—̳͟͞͞♡  action:", action);
-			openModal(`타이머 삭제`, "삭제하시겠습니까?", true, "넹");
+			openModal(`타이머 삭제`, "삭제하시겠습니까?", "삭제", true);
 		}
 	};
 
@@ -73,9 +72,27 @@ const TodoList = () => {
 		}, 1000);
 	};
 
+	const emitModalButtonAction = async (runOrNot) => {
+		if (runOrNot) {
+			const result = await deleteTodo(todoList[0].uid);
+			closeModal(0);
+			navigate(0);
+		} else {
+			closeModal(0);
+		}
+	};
+
 	return (
 		<>
-			{showModal && <Modal title={modalTitle} body={modalBody}></Modal>}
+			{showModal && (
+				<Modal
+					title={modalTitle}
+					body={modalBody}
+					onHandleSubmit={buttonAction}
+					onHandleCancel={useCancelButton}
+					emitModalButtonAction={emitModalButtonAction}
+				></Modal>
+			)}
 			<div className="flex items-center">
 				{todoList &&
 					todoList.map((todo, index) => {

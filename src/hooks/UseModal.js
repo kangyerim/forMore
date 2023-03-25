@@ -4,8 +4,10 @@ const useModal = () => {
 	const [showModal, setShowModal] = useState(false);
 	const [modalTitle, setModalTitle] = useState("");
 	const [modalBody, setModalBody] = useState("");
+	const [buttonAction, setButtonAction] = useState(false);
+	const [useCancelButton, setCancelable] = useState(false);
 
-	const openModal = (title, body, cancel, submit) => {
+	const openModal = (title, body, buttonAction, useCancel) => {
 		setShowModal(true);
 
 		if (title) {
@@ -14,9 +16,15 @@ const useModal = () => {
 		if (body) {
 			setModalBody(body);
 		}
-
-		if (!cancel && !submit) {
+		if (!useCancel && !buttonAction) {
 			closeModal();
+		}
+		if (buttonAction) {
+			setButtonAction(buttonAction);
+		}
+
+		if (useCancel) {
+			setCancelable(useCancel);
 		}
 	};
 
@@ -32,6 +40,8 @@ const useModal = () => {
 		showModal,
 		modalTitle,
 		modalBody,
+		buttonAction,
+		useCancelButton,
 		openModal,
 		closeModal,
 	};

@@ -1,5 +1,4 @@
 import TagColor from "../../constants/TagColor";
-import TimerTime from "../../constants/TimerTime";
 import { useEffect, useRef, useState } from "react";
 
 const TimerTest = ({ todo, emitClickedAction, action }) => {
@@ -15,7 +14,6 @@ const TimerTest = ({ todo, emitClickedAction, action }) => {
 		const currentRestTime = restTimeRef.current.value;
 		const uniqueID = todo?.uid;
 
-		console.log(">>>>>> ", todo);
 		emitClickedAction(requestedAction, { uniqueID, currentTitle, currentTagColor, currentFocusTime, currentRestTime });
 	};
 
