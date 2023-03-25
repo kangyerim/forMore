@@ -11,25 +11,31 @@ const useTodosCollection = () => {
 
 		const createTodo = async (payload) => {
 			try {
-				const response = await addDoc(collectionRef, payload);
-				if (response.id) {
-				} else {
-				}
-			} catch (error) {}
+				await addDoc(collectionRef, payload);
+				return true;
+			} catch (error) {
+				return false;
+			}
 		};
 
 		const updateTodo = async (todoID, updatedDocValue) => {
 			const todoDocRef = doc(collectionRef, todoID);
 			try {
 				await updateDoc(todoDocRef, updatedDocValue);
-			} catch (error) {}
+				return true;
+			} catch (error) {
+				return false;
+			}
 		};
 
 		const deleteTodo = async (todoID) => {
 			const todoDocRef = doc(collectionRef, todoID);
 			try {
 				await deleteDoc(todoDocRef);
-			} catch (error) {}
+				return true;
+			} catch (error) {
+				return false;
+			}
 		};
 
 		const getTodoList = async () => {

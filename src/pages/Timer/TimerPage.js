@@ -1,27 +1,28 @@
 import useTodosCollection from "../../hooks/useTodosCollection";
-import TimerForm from "../../components/Timer/TimerForm";
 import TimerTest from "../../components/Timer/TimerTest";
 
-const TimerPage = ({ todo, action, onCancel }) => {
+const TimerPage = ({ todo, action, onCancel, test }) => {
 	const { createTodo, updateTodo, deleteTodo } = useTodosCollection();
 
-	const handleClickedAction = (
+	const handleClickedAction = async (
 		requestedAction,
 		{ uniqueID, currentTitle: title, currentTagColor: color, currentFocusTime: focusTime, currentRestTime: restTime }
 	) => {
 		if (requestedAction === "cancel") {
 			onCancel();
 		} else if (requestedAction === "create") {
-			createTodo({ title, color, focusTime, restTime, id: new Date() });
+			const response = await createTodo({ title, color, focusTime, restTime, id: new Date() });
+			test(requestedAction, response);
 		} else if (requestedAction === "update") {
-			updateTodo(uniqueID, { title, color, focusTime, restTime });
+			const response = await updateTodo(uniqueID, { title, color, focusTime, restTime });
+			test(requestedAction, response);
 		} else if (requestedAction === "delete") {
-			deleteTodo();
+			const response = await deleteTodo();
+			test(requestedAction, response);
 		}
 	};
 	return (
 		<>
-			{/* <TimerForm todo={todo} isUpdateMode={isUpdateMode} emitClickedAction={handleClickedAction}></TimerForm> */}
 			<TimerTest todo={todo} action={action} emitClickedAction={handleClickedAction}></TimerTest>
 		</>
 	);

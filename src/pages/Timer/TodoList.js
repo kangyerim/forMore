@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import useTodosCollection from "../../hooks/useTodosCollection";
 import TimerPage from "./TimerPage";
+import Modal from "../../components/common/Modal";
+import useModal from "../../hooks/UseModal";
 
 const TodoList = () => {
-	const { getTodoList } = useTodosCollection();
+	const { getTodoList, deleteTodo } = useTodosCollection();
+	const navigate = useNavigate();
 	const userInfo = useSelector((state) => state.authenSlice);
 	const [todoList, setTodoList] = useState([]);
 	const [isUpdateMode, setUpdateMode] = useState(true);
 	const [action, setAction] = useState("");
+	const { showModal, modalTitle, modalBody, openModal } = useModal();
 
 	useEffect(() => {
 		if (userInfo.email) {
@@ -48,18 +53,34 @@ const TodoList = () => {
 		setAction(() => {
 			return action;
 		});
-		setUpdateMode(() => {
-			return !isUpdateMode;
-		});
+
+		if (action != "delete") {
+			setUpdateMode(() => {
+				return !isUpdateMode;
+			});
+		} else {
+			console.log("˚₊·—̳͟͞͞♡  action:", action);
+			openModal(`타이머 삭제`, "삭제하시겠습니까?", true, "넹");
+		}
+	};
+
+	const handleClickedAction = (requestedAction, result) => {
+		if (result) {
+		} else {
+		}
+		setTimeout(() => {
+			navigate(0);
+		}, 1000);
 	};
 
 	return (
 		<>
+			{showModal && <Modal title={modalTitle} body={modalBody}></Modal>}
 			<div className="flex items-center">
 				{todoList &&
 					todoList.map((todo, index) => {
 						return index === 0 ? (
-							<div className={`w-4/5 z-10 h-screen bg-red-200 flex relative`} key={todo.uid}>
+							<div className={`w-4/5 h-screen bg-red-200 flex relative`} key={todo.uid}>
 								{isUpdateMode ? (
 									<>
 										<h1 className="h-fit top-20 text-7xl font-bold align-middle absolute ">{todo.title}</h1>
@@ -69,10 +90,14 @@ const TodoList = () => {
 											<button className="underline" onClick={() => changeMode("update")}>
 												수정
 											</button>
+											/
+											<button className="underline" onClick={() => changeMode("delete")}>
+												삭제
+											</button>
 										</div>
 									</>
 								) : (
-									<TimerPage todo={todo} action={action} onCancel={changeMode} />
+									<TimerPage todo={todo} action={action} onCancel={changeMode} test={handleClickedAction} />
 								)}
 							</div>
 						) : (
