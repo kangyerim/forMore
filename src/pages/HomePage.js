@@ -7,7 +7,7 @@ import useUserAuth from "../hooks/UseUserAuth";
 import TimerPage from "./Timer/TimerPage";
 import useUserCollection from "../hooks/useUserCollection";
 import useTodosCollection from "../hooks/useTodosCollection";
-import TodoList from "./Timer/TodoList";
+import TodoList from "./Todo/TodoList";
 
 const HomePage = () => {
 	const dispatch = useDispatch();
@@ -61,7 +61,7 @@ const HomePage = () => {
 
 			<Routes>
 				<Route path="" element={<TodoList />} />
-				<Route path="timer" element={<TimerPage />} />
+				<Route path="timer/:todo/:focus/:rest" element={<TimerPage />} />
 				<Route path="mypage" element={<MyPage />} />
 			</Routes>
 		</>
