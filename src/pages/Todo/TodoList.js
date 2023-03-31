@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import useTodosCollection from "../../hooks/useTodosCollection";
-import TimerPage from "./TimerPage";
+import TimerPage from "./TodoPage";
 import Modal from "../../components/common/Modal";
 import useModal from "../../hooks/UseModal";
 
@@ -61,6 +61,11 @@ const TodoList = () => {
 		} else {
 			openModal(`타이머 삭제`, "삭제하시겠습니까?", "삭제", true);
 		}
+
+		if (action === "start") {
+			const { focusTime: focus, restTime: rest, title } = todoList[0];
+			navigate(`/home/timer/${title}/${focus}/${rest}`);
+		}
 	};
 
 	const handleClickedAction = (requestedAction, result) => {
@@ -100,7 +105,13 @@ const TodoList = () => {
 							<div className={`w-4/5 h-screen bg-red-200 flex relative`} key={todo.uid}>
 								{isUpdateMode ? (
 									<>
-										<h1 className="h-fit top-20 text-7xl font-bold align-middle absolute ">{todo.title}</h1>
+										<div className="absolute top-20">
+											<h1 className="h-fit text-7xl font-bold inline-grid">{todo.title}</h1>
+											<button className="underline" onClick={() => changeMode("start")}>
+												시작하기
+											</button>
+										</div>
+
 										<div className="absolute bottom-20">
 											<span className="text-9xl font-bold"> {todo.focusTime}/</span>
 											<span className="text-9xl font-bold">{todo.restTime}</span>

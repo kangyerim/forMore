@@ -1,7 +1,7 @@
 import TagColor from "../../constants/TagColor";
 import { useEffect, useRef, useState } from "react";
 
-const TimerTest = ({ todo, emitClickedAction, action }) => {
+const TimerForm = ({ todo, emitClickedAction, action }) => {
 	const timerTitleRef = useRef();
 	const [tagColor, setTagColor] = useState("");
 	const focusTimeRef = useRef();
@@ -103,4 +103,4 @@ const TimerTest = ({ todo, emitClickedAction, action }) => {
 	);
 };
 
-export default TimerTest;
+export default TimerForm;
