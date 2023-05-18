@@ -21,9 +21,29 @@ const TimerPage = () => {
 		}
 	}, []);
 
+	useEffect(() => {
+		if (mode === "focus" && 1 > focusTime) {
+			setMode(() => "none");
+		}
+		if (mode === "rest" && 1 > restTime) {
+			setMode(() => "none");
+		}
+	}, [focusTime, restTime]);
+
+	useEffect(() => {
+		if (mode === "focus") {
+			countDownInterval.current = setInterval(countDown, 1000);
+		} else if (mode === "rest") {
+			countDownInterval.current = setInterval(countDownForRest, 1000);
+		}
+	}, [mode]);
+
 	const handleStart = () => {
-		setMode(() => "focus");
-		countDownInterval.current = setInterval(countDown, 1000);
+		if (focusTime > 1) {
+			setMode(() => "focus");
+		} else {
+			setMode(() => "rest");
+		}
 	};
 
 	const countDown = useCallback(() => {
@@ -33,7 +53,15 @@ const TimerPage = () => {
 		});
 	}, []);
 
+	const countDownForRest = useCallback(() => {
+		setRestTime((preTime) => {
+			if (preTime > 1) return preTime - 1;
+			else return 0;
+		});
+	}, []);
+
 	const handleStop = () => {
+		setMode(() => "none");
 		clearInterval(countDownInterval.current);
 	};
 
@@ -52,9 +80,11 @@ const TimerPage = () => {
 	return (
 		<>
 			<div className="py-10">
-				<h1>{todoName}</h1>
+				<h1>
+					{todoName} {mode}
+				</h1>
 				<h1>{formatedTimeByMinSecond(focusTime)}</h1>
-				<h1>{restTime}</h1>
+				<h1>{formatedTimeByMinSecond(restTime)}</h1>
 
 				<div>
 					<button onClick={handleStart}>start </button>
