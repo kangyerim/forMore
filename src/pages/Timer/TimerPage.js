@@ -27,6 +27,11 @@ const TimerPage = () => {
 		}
 		if (mode === "rest" && 1 > restTime) {
 			setMode(() => "none");
+			clearInterval(countDownInterval.current);
+
+			const { focus, rest, todo } = params;
+			setFocusTime(() => focus * 60);
+			setRestTime(() => rest * 60);
 		}
 	}, [focusTime, restTime]);
 
@@ -35,6 +40,8 @@ const TimerPage = () => {
 			countDownInterval.current = setInterval(countDown, 1000);
 		} else if (mode === "rest") {
 			countDownInterval.current = setInterval(countDownForRest, 1000);
+		} else {
+			clearInterval(countDownInterval.current);
 		}
 	}, [mode]);
 
