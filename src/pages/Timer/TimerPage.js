@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useLoggerCollection from "../../hooks/useLoggerCollection";
 
 const TimerPage = () => {
 	const params = useParams();
@@ -9,6 +10,7 @@ const TimerPage = () => {
 	const [restTime, setRestTime] = useState(-1);
 	const [mode, setMode] = useState("none"); // focus,rest,none
 	let countDownInterval = useRef(null);
+	const { createLog } = useLoggerCollection();
 
 	useEffect(() => {
 		if (params) {
@@ -24,9 +26,11 @@ const TimerPage = () => {
 	useEffect(() => {
 		if (mode === "focus" && 1 > focusTime) {
 			setMode(() => "none");
+			createLog({ mode, todoName, logTime: new Date(), focusTime });
 		}
 		if (mode === "rest" && 1 > restTime) {
 			setMode(() => "none");
+			createLog({ mode, todoName, logTime: new Date(), restTime });
 			clearInterval(countDownInterval.current);
 
 			const { focus, rest, todo } = params;
