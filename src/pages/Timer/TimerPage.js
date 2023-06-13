@@ -23,9 +23,9 @@ const TimerPage = () => {
 	useEffect(() => {
 		return () => {
 			if (mode === "focus") {
-				createLog({ mode, todoName, logTime: new Date(), time: focusedTime });
+				createLog({ mode, todoName, logTime: new Date(), time: focusedTime.current });
 			} else if (mode === "rest") {
-				createLog({ mode, todoName, logTime: new Date(), time: restedTime });
+				createLog({ mode, todoName, logTime: new Date(), time: restedTime.current });
 			}
 		};
 	}, [location.pathname, mode]);
@@ -41,11 +41,11 @@ const TimerPage = () => {
 	useEffect(() => {
 		if (mode === "focus" && 1 > focusTime) {
 			setMode(() => "none");
-			createLog({ mode, todoName, logTime: new Date(), time: focusTime });
+			createLog({ mode, todoName, logTime: new Date(), time: focusTime.current });
 		}
 		if (mode === "rest" && 1 > restTime) {
 			setMode(() => "none");
-			createLog({ mode, todoName, logTime: new Date(), time: restTime });
+			createLog({ mode, todoName, logTime: new Date(), time: restTime.current });
 			clearInterval(countDownInterval.current);
 
 			setTimer();
