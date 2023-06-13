@@ -10,10 +10,9 @@ const useLoggerCollection = () => {
 		const collectionRef = collection(docRef, "logs");
 
 		const createLog = async (payload) => {
-			const { mode, todoUID, todoName, focusTime } = payload;
+			const { mode } = payload;
 
 			if (mode === "none") return;
-			console.log("useLoggerCollection  :  createLog()", mode, todoUID, todoName, focusTime);
 
 			try {
 				await addDoc(collectionRef, payload);

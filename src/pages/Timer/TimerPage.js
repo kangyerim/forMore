@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import useLoggerCollection from "../../hooks/useLoggerCollection";
 
 const TimerPage = () => {
@@ -9,8 +9,24 @@ const TimerPage = () => {
 	const [focusTime, setFocusTime] = useState(-1);
 	const [restTime, setRestTime] = useState(-1);
 	const [mode, setMode] = useState("none"); // focus,rest,none
-	let countDownInterval = useRef(null);
+	const countDownInterval = useRef(null);
+
 	const { createLog } = useLoggerCollection();
+
+	const location = useLocation();
+
+	const focusedTime = useRef(-1);
+	const restedTime = useRef(-1);
+
+	useEffect(() => {
+		return () => {
+			if (mode === "focus") {
+				createLog({ mode, todoName, logTime: new Date(), time: focusedTime });
+			} else if (mode === "rest") {
+				createLog({ mode, todoName, logTime: new Date(), time: restedTime });
+			}
+		};
+	}, [location.pathname, mode]);
 
 	useEffect(() => {
 		if (params) {
@@ -26,17 +42,20 @@ const TimerPage = () => {
 	useEffect(() => {
 		if (mode === "focus" && 1 > focusTime) {
 			setMode(() => "none");
-			createLog({ mode, todoName, logTime: new Date(), focusTime });
+			createLog({ mode, todoName, logTime: new Date(), time: focusTime });
 		}
 		if (mode === "rest" && 1 > restTime) {
 			setMode(() => "none");
-			createLog({ mode, todoName, logTime: new Date(), restTime });
+			createLog({ mode, todoName, logTime: new Date(), time: restTime });
 			clearInterval(countDownInterval.current);
 
 			const { focus, rest, todo } = params;
 			setFocusTime(() => focus * 60);
 			setRestTime(() => rest * 60);
 		}
+
+		focusedTime.current = focusTime;
+		restedTime.current = restTime;
 	}, [focusTime, restTime]);
 
 	useEffect(() => {
