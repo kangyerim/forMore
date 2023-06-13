@@ -15,6 +15,8 @@ const TimerPage = () => {
 
 	const location = useLocation();
 
+	const initialedFocusTime = useRef(-1);
+	const initialedRestTime = useRef(-1);
 	const focusedTime = useRef(-1);
 	const restedTime = useRef(-1);
 
@@ -30,10 +32,7 @@ const TimerPage = () => {
 
 	useEffect(() => {
 		if (params) {
-			const { focus, rest, todo } = params;
-			setFocusTime(() => focus * 60);
-			setRestTime(() => rest * 60);
-			setTodoName(() => todo);
+			setTimer();
 		} else {
 			handleBack();
 		}
@@ -49,13 +48,11 @@ const TimerPage = () => {
 			createLog({ mode, todoName, logTime: new Date(), time: restTime });
 			clearInterval(countDownInterval.current);
 
-			const { focus, rest, todo } = params;
-			setFocusTime(() => focus * 60);
-			setRestTime(() => rest * 60);
+			setTimer();
 		}
 
-		focusedTime.current = focusTime;
-		restedTime.current = restTime;
+		focusedTime.current = initialedFocusTime.current - focusTime;
+		restedTime.current = initialedRestTime.current - restTime;
 	}, [focusTime, restTime]);
 
 	useEffect(() => {
@@ -67,6 +64,16 @@ const TimerPage = () => {
 			clearInterval(countDownInterval.current);
 		}
 	}, [mode]);
+
+	const setTimer = () => {
+		const { focus, rest, todo } = params;
+		setFocusTime(() => focus * 60);
+		setRestTime(() => rest * 60);
+		setTodoName(() => todo);
+
+		initialedFocusTime.current = focus * 60;
+		initialedRestTime.current = rest * 60;
+	};
 
 	const handleStart = () => {
 		if (focusTime > 1) {
