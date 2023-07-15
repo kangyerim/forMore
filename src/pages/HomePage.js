@@ -8,6 +8,7 @@ import TimerPage from "./Timer/TimerPage";
 import useUserCollection from "../hooks/useUserCollection";
 import useTodosCollection from "../hooks/useTodosCollection";
 import TodoList from "./Todo/TodoList";
+import LogPage from "./Log/LogPage";
 
 const HomePage = () => {
 	const dispatch = useDispatch();
@@ -50,6 +51,9 @@ const HomePage = () => {
 					forMore( )
 				</h1>
 				<div>
+					<Link to="/home/logs" className="mx-4 font-bold">
+						내 기록
+					</Link>
 					<Link to="/home/mypage" className="mx-4 font-bold">
 						내 정보
 					</Link>
@@ -62,6 +66,7 @@ const HomePage = () => {
 			<Routes>
 				<Route path="" element={<TodoList />} />
 				<Route path="timer/:todo/:focus/:rest" element={<TimerPage />} />
+				<Route path="logs" element={<LogPage />} />
 				<Route path="mypage" element={<MyPage />} />
 			</Routes>
 		</>
