@@ -1,7 +1,6 @@
-import { collection, addDoc, doc, getDocs, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, addDoc, doc, getDocs, updateDoc, deleteDoc, query, orderBy, limit } from "firebase/firestore";
 import { databaseService } from "../firebase";
 import { useSelector } from "react-redux";
-import { logActions } from "../store/logSlice";
 
 const useLoggerCollection = () => {
 	const { email } = useSelector((state) => state.authenSlice);
@@ -26,7 +25,7 @@ const useLoggerCollection = () => {
 		const getLogList = async () => {
 			let result = [];
 
-			await getDocs(collectionRef).then((querySnapshot) => {
+			await getDocs(query(collectionRef, orderBy("logTime", "desc"))).then((querySnapshot) => {
 				querySnapshot.forEach((doc) => {
 					const todoRef = Object.assign({}, { uid: doc.id }, doc.data());
 					result.push(todoRef);
