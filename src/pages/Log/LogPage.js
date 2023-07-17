@@ -17,7 +17,11 @@ const LogPage = () => {
 
 	return (
 		<>
-			<div>My Logs {timeLineList && timeLineList.length}</div>
+			<div className="h-14"></div>
+			{timeLineList &&
+				timeLineList.map((item) => {
+					return <LogItem key={item.uid} {...item} />;
+				})}
 		</>
 	);
 };
